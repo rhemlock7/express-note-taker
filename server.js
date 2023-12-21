@@ -7,6 +7,9 @@ const db = require('./db/db.json');
 const app = express();
 const PORT = 3001;
 
+// Create middleware to use files in the public folder
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
     res.send(
         'Use the API endpoint at link'
