@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
     )
 })
 
+// ???
+app.get('/notes', (req, res) => {
+    res.sendFile('./public/notes.html')
+})
+
 // Get the data from the db.json file
 app.get('/db', (req, res) => res.json(db))
 
