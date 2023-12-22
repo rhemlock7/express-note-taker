@@ -5,21 +5,37 @@ const db = require('./db/db.json');
 
 // Initialize Express
 const app = express();
+const path = require('path'); // Importing the path module to use res.sendFile
 const PORT = 3001;
 
-// Create middleware to use files in the public folder
+// Create middleware to use static files in the public folder
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    res.send(
-        'Use the API endpoint at link'
-    )
-})
 
-// ???
+// * Get requests
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.get('/notes', (req, res) => {
-    res.sendFile('./public/notes.html')
-})
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
+// Get notes from current db
+app.get('/api/notes', (req, res) => {
+    res.json(`${req.method} request received to display a note`);
+    console.info(`${req.method} request received to display a note`);
+});
+
+// * POST requests
+// Create new notes from client
+app.post('/api/notes', (req, res) => {
+    // Inform the client that their POST request was received
+    res.json(`${req.method} request received to add a note`);
+    // Log request to the terminal
+    console.info(`${req.method} request received to add a note`);
+});
+
 
 // Get the data from the db.json file
 app.get('/db', (req, res) => res.json(db))
