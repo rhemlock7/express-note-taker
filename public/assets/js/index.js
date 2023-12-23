@@ -34,7 +34,11 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  })
+    .then((data) => data)
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -165,27 +169,28 @@ const renderNoteList = async (notes) => {
     return liEl;
   };
 
+
   if (jsonNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
+  } else {
+    // Create list items for each note
+    jsonNotes.forEach((note) => {
+      const li = createLi(note.title);
+      li.dataset.note = JSON.stringify(note);
+      noteListItems.push(li);
+    });
+    
   }
 
-
-  const renderNoteList = async (notes) => {
-    jsonNotes = await notes.json();
-    const li = createLi(note.title);
-    li.dataset.note = JSON.stringify(note);
-
-    if (window.location.pathname === '/notes') {
-      noteList.forEach((el) => (el.innerHTML = ''));
-    }
-  };
+  if (window.location.pathname === '/notes') {
+    noteListItems.forEach((note) => {
+      noteList.forEach((el) => el.append(note));
+    });
+  }
 }
 
 let noteListItems = [];
 
-if (window.location.pathname === '/notes') {
-  noteListItems.forEach((note) => noteList[0].append(note));
-};
 
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);

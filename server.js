@@ -13,9 +13,11 @@ const PORT = 3001;
 // Create middleware to use static files in the public folder
 app.use(express.static('public'));
 
+// Initialize express's ability to parse JSON data
+app.use(express.json());
+
 // Middleware to send /api routes to the proper routes folder
 app.use('/api', api);
-
 
 // * Get requests
 app.get('/', (req, res) => {
@@ -25,7 +27,6 @@ app.get('/', (req, res) => {
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
-
 
 // Get the data from the db.json file
 app.get('/db', (req, res) => res.json(db))

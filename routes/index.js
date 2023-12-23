@@ -2,10 +2,10 @@
 const router = require('express').Router();
 
 // Import our modular routers for /api/notes
-const notesRouter = require('./notes');
+const notesRouter = require('./notes.js');
 
 // Middleware to send /api/notes route to notes.js
-app.use('/notes', notesRouter);
+router.use('/notes', notesRouter);
 
 // Export routes to use in other pages
 module.exports = router;
