@@ -26,7 +26,7 @@ notes.post('/', (req, res) => {
         const newNote = {
                 title,
                 text,
-                notes_id: uuid(),
+                note_id: uuid(),
         };
 
         // Obtain existing reviews
@@ -52,6 +52,29 @@ notes.post('/', (req, res) => {
             }
         });
     }
+});
+
+// * DELETE Requests made by client
+notes.delete('/:id', (req, res) => {
+    // Grab the id to delete
+    const id = req.params.note_id * 1;
+    // Find the note in the json object
+    const noteToDelete = notes.find(el => el.id === id);
+    // Find the index of the id to delte
+    const noteIndex = notes.indexOf(noteToDelete);
+
+    // Remove the note from the json object
+    notes.splice(noteIndex, 1)
+
+    // Write the updated notes back to the json file
+    fs.writeFile(
+        './db/db.json',
+        JSON.stringify(parsedNotes, null, 3),
+        (writeErr) =>
+            writeErr
+                ? console.error(writeErr)
+                : console.info('Successfully updated notes!')
+    );
 });
 
 module.exports = notes;
