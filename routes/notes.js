@@ -59,9 +59,6 @@ notes.post('/', (req, res) => {
 notes.delete('/:id', (req, res) => {
     // Get the element's id to be deleted
     const id = req.params.id;
-    console.info(id);
-
-    console.log('Before Deletion:', db);
 
     // Get the note's index within the object
     const noteIndex = db.findIndex((el) => el.note_id === id);
@@ -73,8 +70,8 @@ notes.delete('/:id', (req, res) => {
         })
     }
 
+    // Remove the selected index from the json object
     db.splice(noteIndex, 1)
-    console.log('After Deletion:', db);
 
     // Overwrite the existing db.json file with the updated object
     fs.writeFile('./db/db.json', JSON.stringify(db, null, 3), () => {
