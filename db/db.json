@@ -1,22 +1,17 @@
 [
    {
-      "title": "1",
-      "text": "test",
-      "note_id": "96ce"
+      "title": "Note 1",
+      "text": "Note text goes here",
+      "note_id": "d9dd"
    },
    {
-      "title": "3",
-      "text": "test",
-      "note_id": "cc1e"
+      "title": "Note 2",
+      "text": "Note text goes here",
+      "note_id": "c566"
    },
    {
-      "title": "5",
-      "text": "test",
-      "note_id": "d632"
-   },
-   {
-      "title": "6",
-      "text": "test",
-      "note_id": "936e"
+      "title": "Note 3",
+      "text": "Note text goes here",
+      "note_id": "3b4a"
    }
 ]
