@@ -3,6 +3,7 @@ const notes = require('express').Router();
 const fs = require('fs');
 const uuid = require('../helpers/uuid');
 const { readFromFile } = require('../helpers/fsUtils');
+const db = require('../db/db.json')
 
 // * GET Requests made by client
 notes.get('/', (req, res) => {
@@ -24,12 +25,12 @@ notes.post('/', (req, res) => {
     if (title && text) {
         // Variable for the object we will save
         const newNote = {
-                title,
-                text,
-                note_id: uuid(),
+            title,
+            text,
+            note_id: uuid(),
         };
 
-        // Obtain existing reviews
+        // Obtain existing notes
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
@@ -56,25 +57,34 @@ notes.post('/', (req, res) => {
 
 // * DELETE Requests made by client
 notes.delete('/:id', (req, res) => {
-    // Grab the id to delete
-    const id = req.params.note_id * 1;
-    // Find the note in the json object
-    const noteToDelete = notes.find(el => el.id === id);
-    // Find the index of the id to delte
-    const noteIndex = notes.indexOf(noteToDelete);
+    // Get the element's id to be deleted
+    const id = req.params.id;
+    console.info(id);
 
-    // Remove the note from the json object
-    notes.splice(noteIndex, 1)
+    console.log('Before Deletion:', db);
 
-    // Write the updated notes back to the json file
-    fs.writeFile(
-        './db/db.json',
-        JSON.stringify(parsedNotes, null, 3),
-        (writeErr) =>
-            writeErr
-                ? console.error(writeErr)
-                : console.info('Successfully updated notes!')
-    );
+    // Get the note's index within the object
+    const noteIndex = db.findIndex((el) => el.note_id === id);
+
+    if (noteIndex === -1) {
+        return res.status(404).json({
+            status: 'fail',
+            message: `No movie object with ID ${id} is found.`
+        })
+    }
+
+    db.splice(noteIndex, 1)
+    console.log('After Deletion:', db);
+
+    // Overwrite the existing db.json file with the updated object
+    fs.writeFile('./db/db.json', JSON.stringify(db, null, 3), () => {
+        res.status(204).json ({
+            status: 'success',
+            data: {
+                notes: null
+            }
+        })
+    });
 });
 
 module.exports = notes;
