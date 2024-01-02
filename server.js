@@ -3,6 +3,7 @@ const express = require('express');
 // Importing the json file located in /db
 const db = require('./db/db.json');
 
+
 // Initialize Express
 const app = express();
 const path = require('path'); // Importing the path module to use res.sendFile
@@ -37,8 +38,11 @@ app.post('/api/notes', (req, res) => {
 });
 
 
-// Get the data from the db.json file
+// * GET the data from the db.json file
 app.get('/db', (req, res) => res.json(db))
+
+// * POST data to the db.json file
+app.post('/db', (req, res) => res.json(db))
 
 // Have the server listening on port 3001
 app.listen(PORT, () =>
