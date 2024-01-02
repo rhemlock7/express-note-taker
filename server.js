@@ -28,12 +28,6 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
-// * GET the data from the db.json file
-app.get('/db', (req, res) => res.json(db))
-
-// * POST data to the db.json file
-app.post('/db', (req, res) => res.json(db))
-
 // Have the server listening on port 3001
 app.listen(PORT, () =>
     console.log(`Listening on: http://localhost:${PORT} !`)
