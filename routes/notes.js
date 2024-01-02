@@ -75,12 +75,15 @@ notes.delete('/:id', (req, res) => {
 
     // Overwrite the existing db.json file with the updated object
     fs.writeFile('./db/db.json', JSON.stringify(db, null, 3), () => {
-        res.status(204).json ({
-            status: 'success',
-            data: {
-                notes: null
-            }
-        })
+        try {
+            res.status(204).json ({
+                status: 'success',
+                data: {
+                    notes: null
+                }})
+        } catch (error) {
+            console.log('Error: ' + error)
+        }
     });
 });
 
